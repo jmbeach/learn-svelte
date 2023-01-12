@@ -12,8 +12,8 @@
     age += 1;
   }
 
-  function changeName() {
-    name = 'Jared';
+  function onNameChange(e) {
+    name = e.target.value;
   }
 </script>
 
@@ -25,4 +25,4 @@
 
 <h1>Hello {uppercaseName}, age {age + 1}!</h1>
 <button on:click={incrementAge}>change age</button>
-<button on:click={changeName}>change name</button>
+<input type="text" bind:value={name} />
