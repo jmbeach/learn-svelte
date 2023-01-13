@@ -1,4 +1,6 @@
 <script>
+  import ContactCard from "./ContactCard.svelte";
+
 	export let name = 'Joe';
   export let age;
 
@@ -19,10 +21,11 @@
 
 <style>
 	h1 {
-		color: purple;
+		color: #fde68a;
 	}
 </style>
 
 <h1>Hello {uppercaseName}, age {age + 1}!</h1>
 <button on:click={incrementAge}>change age</button>
 <input type="text" bind:value={name} />
+<ContactCard />
