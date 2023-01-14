@@ -1,58 +1,36 @@
 <script>
   import ContactCard from './ContactCard.svelte';
 
-  export let name = 'Joe';
-  export let age;
-  let jobTitle = 'Blacksmith';
-  let description = 'Lorem ipsum';
-  let imgUrl =
-    'https://notion-avatar.vercel.app/api/img/eyJmYWNlIjoxNSwibm9zZSI6NywibW91dGgiOjEsImV5ZXMiOjExLCJleWVicm93cyI6MiwiZ2xhc3NlcyI6MiwiaGFpciI6NDUsImFjY2Vzc29yaWVzIjowLCJkZXRhaWxzIjowLCJiZWFyZCI6MCwiZmxpcCI6MCwiY29sb3IiOiJyZ2JhKDI1NSwgMCwgMCwgMCkiLCJzaGFwZSI6Im5vbmUifQ==';
-
-  $: uppercaseName = name.toUpperCase();
-  $: console.log(name);
-  $: if (name === 'Jared') {
-    age = 28;
-  }
-
-  function incrementAge() {
-    age += 1;
-  }
-
-  function onNameChange(e) {
-    name = e.target.value;
-  }
+  let name = 'Max';
+  let title = '';
+  let image = '';
+  let description = '';
 </script>
 
-<h1>Hello {uppercaseName}, age {age + 1}!</h1>
-<button on:click={incrementAge}>change age</button>
-<div>
-  <span>Name:</span>
-  <input type="text" bind:value={name} />
+<div id="form">
+  <div class="form-control">
+    <label for="userName">User Name</label>
+    <input type="text" bind:value={name} id="userName" />
+  </div>
+  <div class="form-control">
+    <label for="jobTitle">Job Title</label>
+    <input type="text" bind:value={title} id="jobTitle" />
+  </div>
+  <div class="form-control">
+    <label for="image">Image URL</label>
+    <input type="text" bind:value={image} id="image" />
+  </div>
+  <div class="form-control">
+    <label for="desc">Description</label>
+    <textarea rows="3" bind:value={description} id="desc" />
+  </div>
 </div>
-<div>
-  <span>Title:</span>
-  <input
-    type="text"
-    value={jobTitle}
-    on:input={e => (jobTitle = e.target.value)}
-  />
-</div>
-<div>
-  <span>Description:</span>
-  <textarea
-    value={description}
-    on:input={e => (description = e.target.value)}
-    rows="3"
-  />
-</div>
-<div>
-  <span>Image URL:</span>
-  <input type="text" value={imgUrl} on:input={e => (imgUrl = e.target.value)} />
-</div>
-<ContactCard userName={name} {jobTitle} {description} {imgUrl} />
+
+<ContactCard userName={name} jobTitle={title} {description} userImage={image} />
 
 <style>
-  h1 {
-    color: #fde68a;
+  #form {
+    width: 30rem;
+    max-width: 100%;
   }
 </style>
