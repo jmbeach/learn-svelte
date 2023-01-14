@@ -13,6 +13,11 @@
   function storePassword() {
     passwords = [...passwords, password];
   }
+
+  function onPasswordClick(e) {
+    const text = e.target.textContent;
+    passwords = passwords.filter((x) => x !== text);
+  }
 </script>
 
 <h1>Assignment</h1>
@@ -46,5 +51,5 @@
 <button on:click={storePassword}>Store Password</button>
 
 {#each passwords as password}
-  <ul>{password}</ul>
+  <ul on:click={onPasswordClick}>{password}</ul>
 {/each}
