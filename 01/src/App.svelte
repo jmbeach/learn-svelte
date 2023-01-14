@@ -28,6 +28,12 @@
     ];
     formState = 'done';
   }
+  function deleteFirst() {
+    contacts = contacts.slice(1);
+  }
+  function deleteLast() {
+    contacts = contacts.slice(0, -1);
+  }
 </script>
 
 <div id="form">
@@ -50,6 +56,8 @@
 </div>
 
 <button on:click={addContact}>Add Contact Card</button>
+<button on:click={deleteFirst}>Delete First</button>
+<button on:click={deleteLast}>Delete Last</button>
 
 {#if formState === 'invalid'}
   <p>Invalid input.</p>
@@ -57,13 +65,16 @@
   <p>Please fill in all data then press button</p>
 {/if}
 
-{#each contacts as contact}
+{#each contacts as contact, i}
+  <h2># {i + 1}</h2>
   <ContactCard
     userName={contact.name}
     jobTitle={contact.title}
     description={contact.description}
     userImage={contact.image}
   />
+{:else}
+  <p>Please add some contacts.</p>
 {/each}
 
 <style>
