@@ -7,7 +7,7 @@
 
 <div class="contact-card">
   <header>
-    <div class="thumb">
+    <div class="thumb" class:thumb-placeholder={!imgUrl}>
       <img src={imgUrl} alt={userName} />
     </div>
     <div class="user-data">
@@ -40,6 +40,10 @@
     width: 33%;
     height: 100%;
     margin-right: 1rem;
+  }
+
+  .thumb-placeholder {
+    background-color: #ccc;
   }
 
   img {
