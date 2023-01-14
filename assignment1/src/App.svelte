@@ -1,12 +1,17 @@
 <script>
   let password = "";
   let state = "empty";
+  let passwords = [];
   function onPasswordChange(e) {
     const newPass = e.target.value;
     if (newPass.length < 5) state = "too-short";
     else if (newPass.length > 10) state = "too-long";
     else state = "valid";
     password = newPass;
+  }
+
+  function storePassword() {
+    passwords = [...passwords, password];
   }
 </script>
 
@@ -37,3 +42,9 @@
 {:else if state === "valid"}
   <p>{password}</p>
 {/if}
+
+<button on:click={storePassword}>Store Password</button>
+
+{#each passwords as password}
+  <ul>{password}</ul>
+{/each}
