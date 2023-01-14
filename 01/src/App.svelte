@@ -24,6 +24,7 @@
         title,
         image,
         description,
+        id: new Date().getTime()
       },
     ];
     formState = 'done';
@@ -65,7 +66,7 @@
   <p>Please fill in all data then press button</p>
 {/if}
 
-{#each contacts as contact, i}
+{#each contacts as contact, i (contact.id)}
   <h2># {i + 1}</h2>
   <ContactCard
     userName={contact.name}
