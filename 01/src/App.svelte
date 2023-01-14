@@ -5,9 +5,18 @@
   let title = '';
   let image = '';
   let description = '';
-  let done = false;
+  let formState = 'empty';
   function addContact() {
-    done = true;
+    if (
+      !name.trim().length ||
+      !title.trim().length ||
+      !image.trim().length ||
+      !description.trim().length
+    ) {
+      formState = 'invalid';
+    } else {
+      formState = 'done';
+    }
   }
 </script>
 
@@ -32,13 +41,17 @@
 
 <button on:click={addContact}>Add Contact Card</button>
 
-{#if done}
+{#if formState === 'done'}
   <ContactCard
     userName={name}
     jobTitle={title}
     {description}
     userImage={image}
   />
+{:else if formState === 'invalid'}
+  <p>Invalid input.</p>
+{:else}
+  <p>Please fill in all data then press button</p>
 {/if}
 
 <style>
