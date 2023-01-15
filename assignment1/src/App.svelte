@@ -1,22 +1,21 @@
 <script>
   let password = "";
-  let state = "empty";
+  let state = "too-short";
   let passwords = [];
-  function onPasswordChange(e) {
-    const newPass = e.target.value;
-    if (newPass.length < 5) state = "too-short";
-    else if (newPass.length > 10) state = "too-long";
-    else state = "valid";
-    password = newPass;
+  $: if (password.length < 5) {
+    state = "too-short";
+  } else if (password.length > 10) {
+    state = "too-long";
+  } else {
+    state = "valid";
   }
 
   function storePassword() {
     passwords = [...passwords, password];
   }
 
-  function onPasswordClick(e) {
-    const text = e.target.textContent;
-    passwords = passwords.filter((x) => x !== text);
+  function onPasswordClick(index) {
+    passwords = passwords.filter((x, i) => i !== index);
   }
 </script>
 
@@ -38,7 +37,7 @@
   <li>Bonus: If a password is clicked, remove it from the list.</li>
 </ol>
 
-<input type="password" value={password} on:input={onPasswordChange} />
+<input type="password" bind:value={password} />
 
 {#if state === "too-short"}
   <p>Too short</p>
@@ -50,6 +49,8 @@
 
 <button on:click={storePassword}>Store Password</button>
 
-{#each passwords as password}
-  <ul on:click={onPasswordClick}>{password}</ul>
-{/each}
+<ul>
+  {#each passwords as password, i}
+    <li on:click={onPasswordClick.bind(this, i)}>{password}</li>
+  {/each}
+</ul>
