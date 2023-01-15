@@ -11,11 +11,11 @@
   }
 
   function storePassword() {
-    passwords = [...passwords, password];
+    passwords = [...passwords, { id: new Date().getTime(), password }];
   }
 
-  function onPasswordClick(index) {
-    passwords = passwords.filter((x, i) => i !== index);
+  function onPasswordClick(id) {
+    passwords = passwords.filter((x) => x.id !== id);
   }
 </script>
 
@@ -50,7 +50,9 @@
 <button on:click={storePassword}>Store Password</button>
 
 <ul>
-  {#each passwords as password, i}
-    <li on:click={onPasswordClick.bind(this, i)}>{password}</li>
+  {#each passwords as password (password.id)}
+    <li on:click={onPasswordClick.bind(this, password.id)}>
+      {password.password}
+    </li>
   {/each}
 </ul>
