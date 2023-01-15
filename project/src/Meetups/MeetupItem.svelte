@@ -4,21 +4,23 @@
   export let imgUrl;
   export let description;
   export let address;
-  export let email;
+  export let contactEmail;
 </script>
 
 <article>
   <header>
     <h1>{title}</h1>
     <h2>{subtitle}</h2>
+    <p>{address}</p>
   </header>
   <div class="image">
     <img src={imgUrl} alt={title} />
   </div>
   <div class="content">
-    <p />
+    <p>{description}</p>
   </div>
   <footer>
+    <a href="mailto:{contactEmail}">Contact</a>
     <button>Show Details</button>
     <button>Favorite</button>
   </footer>
@@ -30,6 +32,7 @@
     border-radius: 5px;
     background: white;
     margin: 1rem;
+    color: #1e293b;
   }
 
   header,
