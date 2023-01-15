@@ -1,11 +1,11 @@
 <script>
-  import ContactCard from './ContactCard.svelte';
+  import ContactCard from "./ContactCard.svelte";
 
-  let name = 'Max';
-  let title = '';
-  let image = '';
-  let description = '';
-  let formState = 'empty';
+  let name = "Max";
+  let title = "";
+  let image = "";
+  let description = "";
+  let formState = "empty";
   let contacts = [];
   function addContact() {
     if (
@@ -14,7 +14,7 @@
       !image.trim().length ||
       !description.trim().length
     ) {
-      formState = 'invalid';
+      formState = "invalid";
       return;
     }
     contacts = [
@@ -24,10 +24,10 @@
         title,
         image,
         description,
-        id: new Date().getTime()
+        id: new Date().getTime(),
       },
     ];
-    formState = 'done';
+    formState = "done";
   }
   function deleteFirst() {
     contacts = contacts.slice(1);
@@ -60,7 +60,7 @@
 <button on:click={deleteFirst}>Delete First</button>
 <button on:click={deleteLast}>Delete Last</button>
 
-{#if formState === 'invalid'}
+{#if formState === "invalid"}
   <p>Invalid input.</p>
 {:else}
   <p>Please fill in all data then press button</p>
