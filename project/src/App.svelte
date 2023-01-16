@@ -2,6 +2,7 @@
   import Header from './UI/Header.svelte';
   import MeetupGrid from './Meetups/MeetupGrid.svelte';
   import TextInput from './UI/TextInput.svelte';
+  import Button from './UI/Button.svelte';
   let meetups = [
     {
       id: 'm1',
@@ -90,7 +91,7 @@
       controlType="textarea"
       rows={3}
     />
-    <button type="submit">Save</button>
+    <Button type="submit" text={'Save'} />
   </form>
   <MeetupGrid {meetups} />
 </main>
