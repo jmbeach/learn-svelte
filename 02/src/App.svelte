@@ -1,9 +1,7 @@
 <script>
   import Modal from './Modal.svelte';
   import Product from './Product.svelte';
-  function addToCart(e) {
-    console.log(e.detail.id);
-  }
+
   const products = [
     {
       id: 'p1',
@@ -11,6 +9,14 @@
       price: 9.99,
     },
   ];
+  let showModal = false;
+
+  function addToCart(e) {
+    console.log(e.detail.id);
+  }
+  function onClose() {
+    showModal = false;
+  }
 </script>
 
 {#each products as product (product.id)}
@@ -21,7 +27,12 @@
   />
 {/each}
 
-<Modal>
-  <h1 slot="header">Hello!</h1>
-  <p>This works</p>
-</Modal>
+<button on:click={() => (showModal = true)}>Show Modal</button>
+
+{#if showModal}
+  <Modal on:close={onClose} on:cancel={onClose}>
+    <h1 slot="header">Hello!</h1>
+    <p>This works</p>
+    <button slot="footer" on:click={onClose}>Confirm</button>
+  </Modal>
+{/if}
