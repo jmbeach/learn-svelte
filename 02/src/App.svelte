@@ -30,9 +30,11 @@
 <button on:click={() => (showModal = true)}>Show Modal</button>
 
 {#if showModal}
-  <Modal on:close={onClose} on:cancel={onClose}>
+  <Modal on:close={onClose} on:cancel={onClose} let:didAgree>
     <h1 slot="header">Hello!</h1>
     <p>This works</p>
-    <button slot="footer" on:click={onClose}>Confirm</button>
+    <button slot="footer" disabled={!didAgree} on:click={onClose}
+      >Confirm</button
+    >
   </Modal>
 {/if}

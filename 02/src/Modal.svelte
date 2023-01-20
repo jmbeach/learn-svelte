@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
 
   const dispatcher = createEventDispatcher();
+  let agreed = false;
 </script>
 
 <div class="backdrop" on:click={() => dispatcher('cancel')} />
@@ -12,9 +13,15 @@
   <div class="content">
     <slot />
   </div>
+  <div class="disclaimer">
+    <p>Before you close you need to agree to our terms!</p>
+    <button on:click={() => (agreed = true)}>Agree</button>
+  </div>
   <footer>
-    <slot name="footer">
-      <button on:click={() => dispatcher('close')}>Close</button>
+    <slot name="footer" didAgree={agreed}>
+      <button on:click={() => dispatcher('close')} disabled={!agreed}
+        >Close</button
+      >
     </slot>
   </footer>
 </div>
