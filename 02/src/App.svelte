@@ -1,4 +1,5 @@
 <script>
+  import Modal from './Modal.svelte';
   import Product from './Product.svelte';
   function addToCart(e) {
     console.log(e.detail.id);
@@ -19,3 +20,10 @@
     on:delete={() => alert('Delete')}
   />
 {/each}
+
+<Modal>
+  <div>
+    <h1>Hello!</h1>
+    <p>This works</p>
+  </div>
+</Modal>
