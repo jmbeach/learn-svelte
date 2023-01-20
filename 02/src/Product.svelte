@@ -1,11 +1,13 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  export let productTitle;
+  export let title;
+  export let price;
   const dispatch = createEventDispatcher();
 </script>
 
 <article>
-  <h1>{productTitle}</h1>
+  <h1>{title}</h1>
+  <h2>${price}</h2>
   <button on:click={() => dispatch('add-to-cart', { id: 'p1' })}
     >Add to Cart</button
   >
