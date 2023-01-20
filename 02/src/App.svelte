@@ -1,9 +1,12 @@
 <script>
   import Product from './Product.svelte';
+  function addToCart(e) {
+    console.log(e.detail.id);
+  }
 </script>
 
 <Product
   productTitle="A Book"
-  on:add-to-cart={a => alert('add to cart' + JSON.stringify(a))}
+  on:add-to-cart={addToCart}
   on:delete={() => alert('Delete')}
 />
