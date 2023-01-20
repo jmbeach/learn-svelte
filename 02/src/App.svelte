@@ -3,7 +3,13 @@
   function addToCart(e) {
     console.log(e.detail.id);
   }
-  const products = [{ id: 'p1', title: 'A book', price: 9.99 }];
+  const products = [
+    {
+      id: 'p1',
+      title: 'A book',
+      price: 9.99,
+    },
+  ];
 </script>
 
 {#each products as product (product.id)}
