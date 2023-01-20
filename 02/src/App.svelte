@@ -22,8 +22,6 @@
 {/each}
 
 <Modal>
-  <div>
-    <h1>Hello!</h1>
-    <p>This works</p>
-  </div>
+  <h1 slot="header">Hello!</h1>
+  <p>This works</p>
 </Modal>
