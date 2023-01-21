@@ -1,8 +1,8 @@
 <script>
   export let text;
-  export let type;
-  export let href;
-  export let mode;
+  export let type = 'button';
+  export let href = undefined;
+  export let mode = 'text';
 </script>
 
 {#if href}
