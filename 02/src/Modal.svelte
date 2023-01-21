@@ -1,8 +1,36 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import {
+    createEventDispatcher,
+    onMount,
+    onDestroy,
+    beforeUpdate,
+    afterUpdate,
+  } from 'svelte';
 
   const dispatcher = createEventDispatcher();
   let agreed = false;
+  let autoscroll = false;
+  onMount(() => {
+    console.log('onMount');
+  });
+
+  onDestroy(() => {
+    console.log('onDestroy');
+  });
+
+  beforeUpdate(() => {
+    console.log('beforeUpdate');
+    autoscroll = agreed;
+  });
+  afterUpdate(() => {
+    console.log('afterUpdate');
+    if (autoscroll) {
+      const modal = document.querySelector('.modal');
+      modal.scrollTo(0, modal.scrollHeight);
+    }
+  });
+
+  console.log('Script executed');
 </script>
 
 <div class="backdrop" on:click={() => dispatcher('cancel')} />
@@ -43,11 +71,12 @@
     top: 10vh;
     left: 10%;
     width: 80%;
-    max-height: 80vh;
+    max-height: 15vh;
     background: white;
     border-radius: 5px;
     z-index: 100;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    overflow: auto;
   }
   header {
     border-bottom: 1px solid black;
