@@ -3,6 +3,8 @@
   import MeetupGrid from './Meetups/MeetupGrid.svelte';
   import EditMeetup from './Meetups/EditMeetup.svelte';
   import Button from './UI/Button.svelte';
+
+  let editMode = undefined;
   let meetups = [
     {
       id: 'm1',
@@ -38,11 +40,15 @@
     meetups[meetupI] = meetup;
     meetups = [...meetups];
   }
+
   function addMeetup(e) {
     meetups = [e.detail, ...meetups];
     editMode = undefined;
   }
-  let editMode = undefined;
+
+  function closeModal() {
+    editMode = undefined;
+  }
 </script>
 
 <Header />
@@ -53,7 +59,11 @@
   </div>
 
   {#if editMode === 'add'}
-    <EditMeetup on:save={addMeetup} />
+    <EditMeetup
+      on:save={addMeetup}
+      on:cancel={closeModal}
+      on:close={closeModal}
+    />
   {/if}
   <MeetupGrid {meetups} on:togglefavorite={onToggleFavorite} />
 </main>
