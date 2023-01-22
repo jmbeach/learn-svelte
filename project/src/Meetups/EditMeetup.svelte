@@ -63,7 +63,7 @@
     controlType="textarea"
     rows={3}
   />
-  <Button type="submit" text={'Save'} />
+  <Button type="submit">Save</Button>
 </form>
 
 <style>
