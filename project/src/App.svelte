@@ -40,6 +40,7 @@
   }
   function addMeetup(e) {
     meetups = [e.detail, ...meetups];
+    editMode = undefined;
   }
   let editMode = undefined;
 </script>
@@ -47,15 +48,21 @@
 <Header />
 
 <main>
+  <div class="meetup-controls">
+    <Button text="New Meetup" on:click={() => (editMode = 'add')} />
+  </div>
+
   {#if editMode === 'add'}
     <EditMeetup on:save={addMeetup} />
   {/if}
-  <Button text="New Meetup" on:click={() => (editMode = 'add')} />
   <MeetupGrid {meetups} on:togglefavorite={onToggleFavorite} />
 </main>
 
 <style>
   main {
     margin-top: 5rem;
+  }
+  .meetup-controls {
+    margin: 1rem;
   }
 </style>
