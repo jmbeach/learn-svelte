@@ -6,7 +6,8 @@
   let price = 0;
   let agreed;
   let favColor = ['green'];
-  $: console.log(favColor);
+  let singleFavColor = 'red';
+  $: console.log(singleFavColor);
 </script>
 
 <CustomInput bind:val type="text" />
@@ -25,3 +26,9 @@
   <input type="checkbox" name="color" value="blue" bind:group={favColor} />
   Blue
 </label>
+
+<select bind:value={singleFavColor}>
+  <option value="green">Green</option>
+  <option value="red">Red</option>
+  <option value="blue">Blue</option>
+</select>
