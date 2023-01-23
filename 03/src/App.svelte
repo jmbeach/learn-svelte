@@ -8,8 +8,9 @@
   let favColor = ['green'];
   let singleFavColor = 'red';
   let usernameInput;
+  let someDiv;
   function saveData() {
-    console.log(usernameInput.value);
+    console.log(someDiv);
   }
   $: console.log(singleFavColor);
 </script>
@@ -41,3 +42,5 @@
 
 <input type="text" bind:this={usernameInput} />
 <button on:click={saveData}>Save</button>
+
+<div bind:this={someDiv} />
