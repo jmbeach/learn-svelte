@@ -8,14 +8,16 @@
   let favColor = ['green'];
   let singleFavColor = 'red';
   let usernameInput;
+  let customInput;
   let someDiv;
   function saveData() {
     console.log(someDiv);
+    customInput.empty();
   }
-  $: console.log(singleFavColor);
+  $: console.log(customInput);
 </script>
 
-<CustomInput bind:val type="text" />
+<CustomInput bind:val type="text" bind:this={customInput} />
 <Toggle bind:chosenOption={selectedOption} />
 <input type="number" bind:value={price} />
 <label><input type="checkbox" bind:checked={agreed} />Agree to terms?</label>
