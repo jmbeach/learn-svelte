@@ -7,6 +7,10 @@
   let agreed;
   let favColor = ['green'];
   let singleFavColor = 'red';
+  let usernameInput;
+  function saveData() {
+    console.log(usernameInput.value);
+  }
   $: console.log(singleFavColor);
 </script>
 
@@ -32,3 +36,8 @@
   <option value="red">Red</option>
   <option value="blue">Blue</option>
 </select>
+
+<hr />
+
+<input type="text" bind:this={usernameInput} />
+<button on:click={saveData}>Save</button>
