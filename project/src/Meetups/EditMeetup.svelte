@@ -23,6 +23,9 @@
   export let description = '';
   export let address = '';
   export let contactEmail = '';
+  function cancel() {
+    dispatch('cancel');
+  }
 </script>
 
 <Modal title="Edit Meetup Data" on:cancel on:close>
@@ -67,6 +70,10 @@
       rows={3}
     />
   </form>
+  <div slot="footer">
+    <Button type="button" on:click={addMeetup}>Save</Button>
+    <Button type="button" on:click={cancel} mode={'outline'}>Cancel</Button>
+  </div>
 </Modal>
 
 <style>
