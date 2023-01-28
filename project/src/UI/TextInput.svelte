@@ -4,15 +4,26 @@
   export let id;
   export let value;
   export let rows = undefined;
-  export let inputType = 'text';
+  export let inputType = "text";
+  export let valid = true;
+  export let validityMessage = "";
 </script>
 
 <div class="form-control">
   <label for={id}>{label}</label>
-  {#if controlType === 'textarea'}
-    <textarea {rows} {id} {value} on:input />
+  {#if controlType === "textarea"}
+    <textarea class:invalid={!valid} {rows} {id} {value} on:input />
   {:else}
-    <input type={inputType ?? 'text'} {id} {value} on:input />
+    <input
+      class:invalid={!valid}
+      type={inputType ?? "text"}
+      {id}
+      {value}
+      on:input
+    />
+  {/if}
+  {#if validityMessage && !valid}
+    <p class="error-message">{validityMessage}</p>
   {/if}
 </div>
 
@@ -45,6 +56,16 @@
   .form-control {
     padding: 0.5rem 0;
     width: 100%;
+    margin: 0.25rem 0;
+  }
+
+  .invalid {
+    border-color: #ef4444;
+    background-color: #fecaca;
+  }
+
+  .error-message {
+    color: #ef4444;
     margin: 0.25rem 0;
   }
 </style>
