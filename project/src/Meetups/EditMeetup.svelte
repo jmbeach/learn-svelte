@@ -3,7 +3,7 @@
   import Button from "../UI/Button.svelte";
   import { createEventDispatcher } from "svelte";
   import Modal from "../UI/Modal.svelte";
-  import { notEmpty } from "../helpers/validation";
+  import { notEmpty, isValidEmail } from "../helpers/validation";
 
   export let title = "";
   export let subtitle = "";
@@ -12,10 +12,20 @@
   export let address = "";
   export let contactEmail = "";
   export let titleValid = false;
+  export let subtitleValid = false;
+  export let imgUrlValid = false;
+  export let descriptionValid = false;
+  export let addressValid = false;
+  export let emailValid = false;
 
   const dispatch = createEventDispatcher();
 
   $: titleValid = !notEmpty(title);
+  $: subtitleValid = !notEmpty(subtitle);
+  $: imgUrlValid = !notEmpty(imgUrl);
+  $: descriptionValid = !notEmpty(description);
+  $: addressValid = !notEmpty(address);
+  $: emailValid = !notEmpty(contactEmail) && isValidEmail(contactEmail);
 
   function addMeetup() {
     dispatch("save", {
@@ -50,20 +60,24 @@
       on:input={(e) => (subtitle = e.target.value)}
       id="subtitle"
       value={subtitle}
-      valid={false}
-      validityMessage={"You need a subtitle"}
+      valid={subtitleValid}
+      validityMessage={"Please enter a subtitle"}
     />
     <TextInput
       label="Address"
       on:input={(e) => (address = e.target.value)}
       id="address"
       value={address}
+      valid={addressValid}
+      validityMessage={"Please enter a address"}
     />
     <TextInput
       label="Image URL"
       on:input={(e) => (imgUrl = e.target.value)}
       id="imgUrl"
       value={imgUrl}
+      valid={imgUrlValid}
+      validityMessage={"Please enter an image URL"}
     />
     <TextInput
       label="Email"
@@ -71,6 +85,8 @@
       id="email"
       value={contactEmail}
       inputType="email"
+      valid={emailValid}
+      validityMessage={"Please enter an email"}
     />
     <TextInput
       label="Description"
@@ -79,6 +95,8 @@
       value={description}
       controlType="textarea"
       rows={3}
+      valid={descriptionValid}
+      validityMessage={"Please enter a description"}
     />
   </form>
   <div slot="footer">
