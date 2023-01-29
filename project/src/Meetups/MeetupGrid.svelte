@@ -1,11 +1,11 @@
 <script>
-  import MeetupItem from './MeetupItem.svelte';
+  import MeetupItem from "./MeetupItem.svelte";
   export let meetups;
 </script>
 
 <section id="meetups">
   {#each meetups as meetup (meetup.id)}
-    <MeetupItem {...meetup} on:togglefavorite />
+    <MeetupItem {...meetup} />
   {/each}
 </section>
 

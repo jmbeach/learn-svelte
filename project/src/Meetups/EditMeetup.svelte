@@ -39,6 +39,7 @@
       contactEmail,
       isFavorite: false,
     });
+    dispatch("save");
   }
 
   function cancel() {

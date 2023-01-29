@@ -7,10 +7,6 @@
 
   let editMode = undefined;
 
-  function onToggleFavorite(e) {
-    meetupsStore.toggleFavorite(e.detail);
-  }
-
   function closeModal() {
     editMode = undefined;
   }
@@ -26,7 +22,7 @@
   {#if editMode === "add"}
     <EditMeetup on:cancel={closeModal} on:close={closeModal} />
   {/if}
-  <MeetupGrid meetups={$meetupsStore} on:togglefavorite={onToggleFavorite} />
+  <MeetupGrid meetups={$meetupsStore} />
 </main>
 
 <style>
