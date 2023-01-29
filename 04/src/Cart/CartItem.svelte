@@ -1,21 +1,44 @@
 <script>
   import Button from "../UI/Button.svelte";
+  import { createEventDispatcher } from "svelte";
+  import productsStore from "../Products/products-store";
 
   export let title;
   export let price;
   export let id;
+  const dispatch = createEventDispatcher();
 
   let showDescription = false;
+  let description = "Not available!";
 
   function displayDescription() {
     showDescription = !showDescription;
   }
 
   function removeFromCart() {
-    // ...
-    console.log("Removing...");
+    dispatch("remove");
   }
+
+  const unsubscribe = productsStore.subscribe((products) => {
+    const product = products.find((p) => p.id === id);
+    if (product) {
+      description = product.description;
+    }
+  });
+  unsubscribe();
 </script>
+
+<li>
+  <h1>{title}</h1>
+  <h2>{price}</h2>
+  <Button mode="outline" on:click={displayDescription}>
+    {showDescription ? "Hide Description" : "Show Description"}
+  </Button>
+  <Button on:click={removeFromCart}>Remove from Cart</Button>
+  {#if showDescription}
+    <p>{description}</p>
+  {/if}
+</li>
 
 <style>
   li {
@@ -37,15 +60,3 @@
     margin-bottom: 1rem;
   }
 </style>
-
-<li>
-  <h1>{title}</h1>
-  <h2>{price}</h2>
-  <Button mode="outline" on:click={displayDescription}>
-    {showDescription ? 'Hide Description' : 'Show Description'}
-  </Button>
-  <Button on:click={removeFromCart}>Remove from Cart</Button>
-  {#if showDescription}
-    <p>Not available :(</p>
-  {/if}
-</li>
