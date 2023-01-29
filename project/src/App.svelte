@@ -11,10 +11,6 @@
     meetupsStore.toggleFavorite(e.detail);
   }
 
-  function addMeetup(e) {
-    meetupsStore.add(e.detail);
-  }
-
   function closeModal() {
     editMode = undefined;
   }
@@ -28,11 +24,7 @@
   </div>
 
   {#if editMode === "add"}
-    <EditMeetup
-      on:save={addMeetup}
-      on:cancel={closeModal}
-      on:close={closeModal}
-    />
+    <EditMeetup on:cancel={closeModal} on:close={closeModal} />
   {/if}
   <MeetupGrid meetups={$meetupsStore} on:togglefavorite={onToggleFavorite} />
 </main>

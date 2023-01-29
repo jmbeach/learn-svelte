@@ -4,6 +4,7 @@
   import { createEventDispatcher } from "svelte";
   import Modal from "../UI/Modal.svelte";
   import { notEmpty, isValidEmail } from "../helpers/validation";
+  import meetupsStore from "./meetups-store";
 
   export let title = "";
   export let subtitle = "";
@@ -29,7 +30,7 @@
     emailValid;
 
   function addMeetup() {
-    dispatch("save", {
+    meetupsStore.add({
       title,
       subtitle,
       imgUrl,
