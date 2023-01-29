@@ -16,6 +16,7 @@ export default {
   subscribe,
   add: (item) => {
     update(items => {
+      if (items.find(x => x.id === item.id)) return items
       return [...items, item]
     })
   },
