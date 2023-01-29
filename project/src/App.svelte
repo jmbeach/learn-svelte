@@ -4,12 +4,8 @@
   import EditMeetup from "./Meetups/EditMeetup.svelte";
   import Button from "./UI/Button.svelte";
   import meetupsStore from "./Meetups/meetups-store";
-  import { onDestroy } from "svelte";
 
   let editMode = undefined;
-  let meetups = [];
-
-  const unsubscribe = meetupsStore.subscribe((x) => (meetups = x));
 
   function onToggleFavorite(e) {
     meetupsStore.toggleFavorite(e.detail);
@@ -22,8 +18,6 @@
   function closeModal() {
     editMode = undefined;
   }
-
-  onDestroy(() => unsubscribe());
 </script>
 
 <Header />
@@ -40,7 +34,7 @@
       on:close={closeModal}
     />
   {/if}
-  <MeetupGrid {meetups} on:togglefavorite={onToggleFavorite} />
+  <MeetupGrid meetups={$meetupsStore} on:togglefavorite={onToggleFavorite} />
 </main>
 
 <style>
