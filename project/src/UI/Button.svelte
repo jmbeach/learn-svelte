@@ -1,14 +1,15 @@
 <script>
-  export let type = 'button';
+  export let type = "button";
   export let href = undefined;
-  export let mode = 'text';
+  export let mode = "text";
   export let color = undefined;
+  export let disabled = false;
 </script>
 
 {#if href}
   <a {href} class="{mode} {color}"><slot /></a>
 {:else}
-  <button {type} class="{mode} {color}" on:click><slot /></button>
+  <button {type} class="{mode} {color}" on:click {disabled}><slot /></button>
 {/if}
 
 <style>

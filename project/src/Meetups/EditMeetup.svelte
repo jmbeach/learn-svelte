@@ -11,12 +11,6 @@
   export let description = "";
   export let address = "";
   export let contactEmail = "";
-  export let titleValid = false;
-  export let subtitleValid = false;
-  export let imgUrlValid = false;
-  export let descriptionValid = false;
-  export let addressValid = false;
-  export let emailValid = false;
 
   const dispatch = createEventDispatcher();
 
@@ -26,6 +20,13 @@
   $: descriptionValid = !notEmpty(description);
   $: addressValid = !notEmpty(address);
   $: emailValid = !notEmpty(contactEmail) && isValidEmail(contactEmail);
+  $: formIsValid =
+    titleValid &&
+    subtitleValid &&
+    imgUrlValid &&
+    descriptionValid &&
+    addressValid &&
+    emailValid;
 
   function addMeetup() {
     dispatch("save", {
@@ -100,7 +101,9 @@
     />
   </form>
   <div slot="footer">
-    <Button type="button" on:click={addMeetup}>Save</Button>
+    <Button type="button" on:click={addMeetup} disabled={!formIsValid}
+      >Save</Button
+    >
     <Button type="button" on:click={cancel} mode={"outline"}>Cancel</Button>
   </div>
 </Modal>
