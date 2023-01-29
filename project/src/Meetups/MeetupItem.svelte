@@ -32,9 +32,9 @@
     <p>{description}</p>
   </div>
   <footer>
-    <Button href="mailto:{contactEmail}">Contact</Button>
+    <Button mode="outline" on:click={() => dispatch("edit", id)}>Edit</Button>
     <Button
-      mode={"outline"}
+      mode="outline"
       type="button"
       color={isFavorite ? "" : "success"}
       on:click={() => meetupsStore.toggleFavorite(id)}

@@ -22,6 +22,11 @@
   function closeDetails() {
     page = "overview";
   }
+
+  function onEdit({ detail }) {
+    editMode = "edit";
+    id = detail;
+  }
 </script>
 
 <Header />
@@ -33,9 +38,24 @@
     </div>
 
     {#if editMode === "add"}
-      <EditMeetup on:cancel={closeModal} on:close={closeModal} />
+      <EditMeetup
+        on:cancel={closeModal}
+        on:close={closeModal}
+        on:save={closeModal}
+      />
+    {:else if editMode === "edit"}
+      <EditMeetup
+        on:cancel={closeModal}
+        on:close={closeModal}
+        on:save={closeModal}
+        {id}
+      />
     {/if}
-    <MeetupGrid meetups={$meetupsStore} on:showdetails={showDetails} />
+    <MeetupGrid
+      meetups={$meetupsStore}
+      on:showdetails={showDetails}
+      on:edit={onEdit}
+    />
   {:else if page === "details"}
     <MeetupDetails {id} on:close={closeDetails} />
   {/if}

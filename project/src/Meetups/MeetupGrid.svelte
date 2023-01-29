@@ -5,7 +5,7 @@
 
 <section id="meetups">
   {#each meetups as meetup (meetup.id)}
-    <MeetupItem {...meetup} on:showdetails />
+    <MeetupItem {...meetup} on:showdetails on:edit />
   {/each}
 </section>
 

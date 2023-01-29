@@ -43,5 +43,11 @@ export default {
     };
     copy[meetupI] = meetup;
     return copy;
+  }),
+  update: (id, data) => update(meetups => {
+    const copy = [...meetups];
+    const meetupI = copy.findIndex((x) => x.id == id);
+    copy[meetupI] = { id,...data };
+    return copy;
   })
 };

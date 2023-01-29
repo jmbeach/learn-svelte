@@ -6,12 +6,21 @@
   import { notEmpty, isValidEmail } from "../helpers/validation";
   import meetupsStore from "./meetups-store";
 
-  export let title = "";
-  export let subtitle = "";
-  export let imgUrl = "";
-  export let description = "";
-  export let address = "";
-  export let contactEmail = "";
+  export let id = undefined;
+  let meetup;
+  if (id) {
+    const unsubscribe = meetupsStore.subscribe((meetups) => {
+      meetup = meetups.find((x) => x.id === id);
+    });
+    unsubscribe();
+  }
+
+  let title = meetup?.title ?? "";
+  let subtitle = meetup?.subtitle ?? "";
+  let imgUrl = meetup?.imgUrl ?? "";
+  let description = meetup?.description ?? "";
+  let address = meetup?.address ?? "";
+  let contactEmail = meetup?.contactEmail ?? "";
 
   const dispatch = createEventDispatcher();
 
@@ -29,8 +38,8 @@
     addressValid &&
     emailValid;
 
-  function addMeetup() {
-    meetupsStore.add({
+  function save() {
+    const data = {
       title,
       subtitle,
       imgUrl,
@@ -38,7 +47,13 @@
       address,
       contactEmail,
       isFavorite: false,
-    });
+    };
+    if (id) {
+      meetupsStore.update(id, data);
+    } else {
+      meetupsStore.add(data);
+    }
+
     dispatch("save");
   }
 
@@ -48,7 +63,7 @@
 </script>
 
 <Modal title="Edit Meetup Data" on:cancel on:close>
-  <form on:submit|preventDefault={addMeetup}>
+  <form on:submit|preventDefault={save}>
     <TextInput
       label="Title"
       on:input={(e) => (title = e.target.value)}
@@ -102,9 +117,7 @@
     />
   </form>
   <div slot="footer">
-    <Button type="button" on:click={addMeetup} disabled={!formIsValid}
-      >Save</Button
-    >
+    <Button type="button" on:click={save} disabled={!formIsValid}>Save</Button>
     <Button type="button" on:click={cancel} mode={"outline"}>Cancel</Button>
   </div>
 </Modal>
