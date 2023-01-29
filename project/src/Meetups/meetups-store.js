@@ -19,7 +19,7 @@ const {subscribe, update} = writable([
     subtitle: "Let's go swimming!",
     description: 'We will simply swim some rounds!',
     imgUrl:
-      'https://images.unsplash.com/photo-1589584556363-b90f6bcc7149?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
+      'https://images.unsplash.com/photo-1542668595-fa9394e5b686?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1365&q=80',
     address: '27th Nerd Road, 32523 New York',
     contactEmail: 'swim@test.com',
     isFavorite: false,
@@ -27,7 +27,13 @@ const {subscribe, update} = writable([
 ]);
 export default {
   subscribe,
-  add: (meetup) => update(meetups => [meetup, ...meetups]),
+  add: (meetup) => update(meetups => [
+    {
+      id: new Date().getTime(),
+      ...meetup
+    },
+    ...meetups
+  ]),
   toggleFavorite: (id) => update(meetups => {
     const copy = [...meetups];
     const meetupI = copy.findIndex((x) => x.id == id);

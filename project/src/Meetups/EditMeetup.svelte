@@ -30,7 +30,6 @@
 
   function addMeetup() {
     dispatch("save", {
-      id: new Date().getTime(),
       title,
       subtitle,
       imgUrl,
