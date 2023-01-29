@@ -1,19 +1,12 @@
 <script>
   import CartItem from "./CartItem.svelte";
   import cartStore from "./cart-store";
-  import { onDestroy } from "svelte";
-  export let items = [];
-
-  const unsubscribe = cartStore.subscribe((x) => {
-    items = x;
-  });
-  onDestroy(() => unsubscribe());
 </script>
 
 <section>
   <h1>Cart</h1>
   <ul>
-    {#each items as item (item.id)}
+    {#each $cartStore as item (item.id)}
       <CartItem id={item.id} title={item.title} price={item.price} />
     {:else}
       <p>No items in cart yet!</p>
