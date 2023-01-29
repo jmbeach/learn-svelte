@@ -1,64 +1,49 @@
 <script>
-  import Header from './UI/Header.svelte';
-  import MeetupGrid from './Meetups/MeetupGrid.svelte';
-  import EditMeetup from './Meetups/EditMeetup.svelte';
-  import Button from './UI/Button.svelte';
+  import Header from "./UI/Header.svelte";
+  import MeetupGrid from "./Meetups/MeetupGrid.svelte";
+  import EditMeetup from "./Meetups/EditMeetup.svelte";
+  import Button from "./UI/Button.svelte";
+  import meetupsStore from "./Meetups/meetups-store";
+  import { onDestroy } from "svelte";
 
   let editMode = undefined;
-  let meetups = [
-    {
-      id: 'm1',
-      title: 'Coding Bootcamp',
-      subtitle: 'Learn to code in 2 hours',
-      description:
-        'In this meetup, we will have some experts that teach you how to code',
-      imgUrl:
-        'https://images.unsplash.com/photo-1531498860502-7c67cf02f657?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-      address: '27th Nerd Road, 32523 New York',
-      contactEmail: 'code@test.com',
-      isFavorite: false,
-    },
-    {
-      id: 'm2',
-      title: 'Swim Together',
-      subtitle: "Let's go swimming!",
-      description: 'We will simply swim some rounds!',
-      imgUrl:
-        'https://images.unsplash.com/photo-1589584556363-b90f6bcc7149?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-      address: '27th Nerd Road, 32523 New York',
-      contactEmail: 'swim@test.com',
-      isFavorite: false,
-    },
-  ];
+  let meetups = [];
+
+  const unsubscribe = meetupsStore.subscribe((x) => (meetups = x));
 
   function onToggleFavorite(e) {
-    const meetupI = meetups.findIndex(x => x.id == e.detail);
-    const meetup = {
-      ...meetups[meetupI],
-      isFavorite: !meetups[meetupI].isFavorite,
-    };
-    meetups[meetupI] = meetup;
-    meetups = [...meetups];
+    meetupsStore.update((x) => {
+      const copy = [...x];
+      const meetupI = copy.findIndex((x) => x.id == e.detail);
+      const meetup = {
+        ...x[meetupI],
+        isFavorite: !copy[meetupI].isFavorite,
+      };
+      copy[meetupI] = meetup;
+      return copy;
+    });
   }
 
   function addMeetup(e) {
-    meetups = [e.detail, ...meetups];
+    meetupsStore.update((x) => [e.detail, ...x]);
     editMode = undefined;
   }
 
   function closeModal() {
     editMode = undefined;
   }
+
+  onDestroy(() => unsubscribe());
 </script>
 
 <Header />
 
 <main>
   <div class="meetup-controls">
-    <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
+    <Button on:click={() => (editMode = "add")}>New Meetup</Button>
   </div>
 
-  {#if editMode === 'add'}
+  {#if editMode === "add"}
     <EditMeetup
       on:save={addMeetup}
       on:cancel={closeModal}
