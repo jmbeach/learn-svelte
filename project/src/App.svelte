@@ -12,21 +12,11 @@
   const unsubscribe = meetupsStore.subscribe((x) => (meetups = x));
 
   function onToggleFavorite(e) {
-    meetupsStore.update((x) => {
-      const copy = [...x];
-      const meetupI = copy.findIndex((x) => x.id == e.detail);
-      const meetup = {
-        ...x[meetupI],
-        isFavorite: !copy[meetupI].isFavorite,
-      };
-      copy[meetupI] = meetup;
-      return copy;
-    });
+    meetupsStore.toggleFavorite(e.detail);
   }
 
   function addMeetup(e) {
-    meetupsStore.update((x) => [e.detail, ...x]);
-    editMode = undefined;
+    meetupsStore.add(e.detail);
   }
 
   function closeModal() {

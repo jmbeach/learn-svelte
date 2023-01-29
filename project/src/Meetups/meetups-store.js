@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-const meetups = writable([
+const {subscribe, update} = writable([
   {
     id: 'm1',
     title: 'Coding Bootcamp',
@@ -25,4 +25,17 @@ const meetups = writable([
     isFavorite: false,
   },
 ]);
-export default meetups;
+export default {
+  subscribe,
+  add: (meetup) => update(meetups => [meetup, ...meetups]),
+  toggleFavorite: (id) => update(meetups => {
+    const copy = [...meetups];
+    const meetupI = copy.findIndex((x) => x.id == id);
+    const meetup = {
+      ...copy[meetupI],
+      isFavorite: !copy[meetupI].isFavorite,
+    };
+    copy[meetupI] = meetup;
+    return copy;
+  })
+};
