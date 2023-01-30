@@ -49,6 +49,7 @@
         on:close={closeModal}
         on:save={closeModal}
         {id}
+        on:delete={closeModal}
       />
     {/if}
     <MeetupGrid

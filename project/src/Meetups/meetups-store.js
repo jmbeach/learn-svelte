@@ -49,5 +49,6 @@ export default {
     const meetupI = copy.findIndex((x) => x.id == id);
     copy[meetupI] = { id,...data };
     return copy;
-  })
+  }),
+  delete: (id) => update(meetups => meetups.filter(x => x.id !== id))
 };
