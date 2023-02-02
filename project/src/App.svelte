@@ -3,7 +3,6 @@
   import MeetupGrid from "./Meetups/MeetupGrid.svelte";
   import MeetupDetails from "./Meetups/MeetupDetails.svelte";
   import EditMeetup from "./Meetups/EditMeetup.svelte";
-  import Button from "./UI/Button.svelte";
   import meetupsStore from "./Meetups/meetups-store";
 
   let editMode = undefined;
@@ -33,10 +32,6 @@
 
 <main>
   {#if page === "overview"}
-    <div class="meetup-controls">
-      <Button on:click={() => (editMode = "add")}>New Meetup</Button>
-    </div>
-
     {#if editMode === "add"}
       <EditMeetup
         on:cancel={closeModal}
@@ -53,9 +48,11 @@
       />
     {/if}
     <MeetupGrid
+      {editMode}
       meetups={$meetupsStore}
       on:showdetails={showDetails}
       on:edit={onEdit}
+      on:add={() => (editMode = "add")}
     />
   {:else if page === "details"}
     <MeetupDetails {id} on:close={closeDetails} />
@@ -65,8 +62,5 @@
 <style>
   main {
     margin-top: 5rem;
-  }
-  .meetup-controls {
-    margin: 1rem;
   }
 </style>
