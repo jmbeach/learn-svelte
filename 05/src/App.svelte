@@ -13,7 +13,32 @@
   setTimeout(() => {
     progress.set(0.5);
   }, 1500);
+
+  let boxes = [];
+  let boxInput;
+  function addBox() {
+    boxes = [...boxes, boxInput.value];
+  }
 </script>
 
 <!-- <progress value={$progress} /> -->
-<Spring />
+<!-- <Spring /> -->
+
+<input type="text" bind:this={boxInput} />
+<button on:click={addBox}>Add</button>
+
+{#each boxes as box}
+  <div>{box}</div>
+{/each}
+
+<style>
+  div {
+    width: 10rem;
+    height: 10rem;
+    background-color: #ccc;
+    margin: 1rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-radius: 5px;
+    padding: 1rem;
+  }
+</style>
