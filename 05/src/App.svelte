@@ -2,6 +2,7 @@
   import { writable } from "svelte/store";
   import { tweened } from "svelte/motion";
   import { cubicIn } from "svelte/easing";
+  import { fade, fly, slide, scale } from "svelte/transition";
   import Spring from "./Spring.svelte";
 
   const progress = tweened(0, {
@@ -19,6 +20,9 @@
   function addBox() {
     boxes = [...boxes, boxInput.value];
   }
+  function discard(item) {
+    boxes = boxes.filter((x) => x !== item);
+  }
 </script>
 
 <!-- <progress value={$progress} /> -->
@@ -28,7 +32,9 @@
 <button on:click={addBox}>Add</button>
 
 {#each boxes as box}
-  <div>{box}</div>
+  <div transition:fly={{ x: -300, y: 300 }} on:click={() => discard(box)}>
+    {box}
+  </div>
 {/each}
 
 <style>
