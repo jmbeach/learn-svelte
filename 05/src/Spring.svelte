@@ -1,45 +1,52 @@
 <script>
   import { writable } from "svelte/store";
-  
+  import { spring } from "svelte/motion";
+
   let cards = writable([
     {
       id: "c1",
-      color: "red"
+      color: "red",
     },
     {
       id: "c2",
-      color: "blue"
+      color: "blue",
     },
     {
       id: "c3",
-      color: "green"
+      color: "green",
     },
     {
       id: "c4",
-      color: "orange"
-    }
+      color: "orange",
+    },
   ]);
-  let cardPos = writable([
+  let cardPos = spring(
+    [
+      {
+        rotation: 10,
+        dx: 0,
+      },
+      {
+        rotation: -10,
+        dx: 0,
+      },
+      {
+        rotation: 19,
+        dx: 0,
+      },
+      {
+        rotation: -25,
+        dx: 0,
+      },
+    ],
     {
-      rotation: 10,
-      dx: 0
-    },
-    {
-      rotation: -10,
-      dx: 0
-    },
-    {
-      rotation: 19,
-      dx: 0
-    },
-    {
-      rotation: -25,
-      dx: 0
+      stiffness: 0.05,
+      damping: 0.9,
     }
-  ]);
+  );
 
   function discard(index) {
-    cardPos.update(items => {
+    cardPos.update((items) => {
       const updatedCardPositions = [...items];
       const updatedCardPos = { ...updatedCardPositions[index] };
       updatedCardPos.dx = 1200;
@@ -49,6 +56,19 @@
     });
   }
 </script>
+
+<div class="page">
+  <div class="cards">
+    {#each $cards as card, i (card.id)}
+      <div
+        class="card"
+        style="background: {card.color}; transform: rotateZ({$cardPos[i]
+          .rotation}deg) translateX({$cardPos[i].dx}px)"
+        on:click={discard.bind(this, i)}
+      />
+    {/each}
+  </div>
+</div>
 
 <style>
   .page {
@@ -70,14 +90,3 @@
     border-radius: 5px;
   }
 </style>
-
-<div class="page">
-  <div class="cards">
-    {#each $cards as card, i (card.id)}
-      <div
-        class="card"
-        style="background: {card.color}; transform: rotateZ({$cardPos[i].rotation}deg) translateX({$cardPos[i].dx}px)"
-        on:click={discard.bind(this, i)} />
-    {/each}
-  </div>
-</div>
