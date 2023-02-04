@@ -17,6 +17,7 @@
 
   let boxes = [];
   let boxInput;
+  let showParagraph = false;
   function addBox() {
     boxes = [...boxes, boxInput.value];
   }
@@ -28,14 +29,31 @@
 <!-- <progress value={$progress} /> -->
 <!-- <Spring /> -->
 
+<button on:click={() => (showParagraph = !showParagraph)}>Toggle</button>
+
+{#if showParagraph}
+  <p transition:fly={{ x: 300 }}>Can you see me?</p>
+{/if}
+
+<br />
+
 <input type="text" bind:this={boxInput} />
 <button on:click={addBox}>Add</button>
 
-{#each boxes as box}
-  <div transition:fly={{ x: -300, y: 300 }} on:click={() => discard(box)}>
-    {box}
-  </div>
-{/each}
+{#if showParagraph}
+  {#each boxes as box}
+    <div
+      transition:fly|local={{ x: -300, y: 300 }}
+      on:click={() => discard(box)}
+      on:introstart={() => console.log("Adding the element starts")}
+      on:introend={() => console.log("Adding the element ends")}
+      on:outrostart={() => console.log("removing the element starts")}
+      on:outroend={() => console.log("removing the element ends")}
+    >
+      {box}
+    </div>
+  {/each}
+{/if}
 
 <style>
   div {
