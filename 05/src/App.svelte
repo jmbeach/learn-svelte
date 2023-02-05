@@ -4,6 +4,7 @@
   import { cubicIn } from "svelte/easing";
   import { fade, fly, slide, scale } from "svelte/transition";
   import Spring from "./Spring.svelte";
+  import { flip } from "svelte/animate";
 
   const progress = tweened(0, {
     delay: 0,
@@ -19,7 +20,7 @@
   let boxInput;
   let showParagraph = false;
   function addBox() {
-    boxes = [...boxes, boxInput.value];
+    boxes = [boxInput.value, ...boxes];
   }
   function discard(item) {
     boxes = boxes.filter((x) => x !== item);
@@ -41,9 +42,10 @@
 <button on:click={addBox}>Add</button>
 
 {#if showParagraph}
-  {#each boxes as box}
+  {#each boxes as box (box)}
     <div
       transition:fly|local={{ x: -300, y: 300 }}
+      animate:flip={{ duration: 300 }}
       on:click={() => discard(box)}
       on:introstart={() => console.log("Adding the element starts")}
       on:introend={() => console.log("Adding the element ends")}
