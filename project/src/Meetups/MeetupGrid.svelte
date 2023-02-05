@@ -3,6 +3,8 @@
   import MeetupFilter from "./MeetupFilter.svelte";
   import Button from "../UI/Button.svelte";
   import { createEventDispatcher } from "svelte";
+  import { fly } from "svelte/transition";
+  import { flip } from "svelte/animate";
   const dispatch = createEventDispatcher();
   export let meetups;
   $: filtered = favsOnly ? meetups.filter((x) => x.isFavorite) : meetups;
@@ -20,7 +22,9 @@
 
 <section id="meetups">
   {#each filtered as meetup (meetup.id)}
-    <MeetupItem {...meetup} on:showdetails on:edit />
+    <div transition:fly={{ x: -300 }} animate:flip={{ duration: 300 }}>
+      <MeetupItem {...meetup} on:showdetails on:edit />
+    </div>
   {/each}
 </section>
 

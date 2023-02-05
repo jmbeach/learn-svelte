@@ -3,6 +3,7 @@
   import Button from "../UI/Button.svelte";
   import Badge from "../UI/Badge.svelte";
   import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
   export let title;
   export let subtitle;
   export let imgUrl;
@@ -19,7 +20,9 @@
     <h1>
       {title}
       {#if isFavorite}
-        <Badge>Fav</Badge>
+        <span transition:fade>
+          <Badge>Fav</Badge>
+        </span>
       {/if}
     </h1>
     <h2>{subtitle}</h2>

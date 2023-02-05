@@ -1,17 +1,22 @@
 <script>
-  import Button from './Button.svelte';
-  import { createEventDispatcher } from 'svelte';
+  import Button from "./Button.svelte";
+  import { createEventDispatcher } from "svelte";
   export let title;
   const dispatch = createEventDispatcher();
+  import { fade } from "svelte/transition";
 </script>
 
-<div class="modal-backdrop" on:click={() => dispatch('cancel')} />
-<div class="modal">
+<div
+  transition:fade={{ duration: 250 }}
+  class="modal-backdrop"
+  on:click={() => dispatch("cancel")}
+/>
+<div class="modal" transition:fade={{ duration: 250 }}>
   <h1>{title}</h1>
   <div class="content"><slot /></div>
   <footer>
     <slot name="footer"
-      ><Button on:click={() => dispatch('close')}>Close</Button></slot
+      ><Button on:click={() => dispatch("close")}>Close</Button></slot
     >
   </footer>
 </div>
@@ -44,7 +49,7 @@
     padding: 1rem;
     margin: 0;
     border-bottom: 1px solid #ccc;
-    font-family: 'Roboto Slab', sans-serif;
+    font-family: "Roboto Slab", sans-serif;
   }
 
   .content {
