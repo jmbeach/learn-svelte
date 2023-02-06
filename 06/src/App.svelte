@@ -1,9 +1,10 @@
 <script>
+	import { onMount } from "svelte";
 	let hobbies = [];
 	let hobbyInput;
 	let isLoading = false;
 
-	(async function () {
+	onMount(async () => {
 		isLoading = true;
 		try {
 			const res = await (
@@ -15,7 +16,7 @@
 		} finally {
 			isLoading = false;
 		}
-	})();
+	});
 
 	async function addHobby() {
 		hobbies = [...hobbies, hobbyInput.value];
