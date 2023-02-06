@@ -38,8 +38,8 @@
     addressValid &&
     emailValid;
 
-  function save() {
-    const data = {
+  async function save() {
+    const meetup = {
       title,
       subtitle,
       imgUrl,
@@ -49,9 +49,25 @@
       isFavorite: false,
     };
     if (id) {
-      meetupsStore.update(id, data);
+      meetupsStore.update(id, meetup);
     } else {
-      meetupsStore.add(data);
+      try {
+        const res = await fetch(
+          "https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups.json",
+          {
+            method: "POST",
+            body: JSON.stringify(meetup),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Failed to add meetup");
+        }
+        const data = await res.json();
+        meetupsStore.add({ id: data.name, ...meetup });
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     dispatch("save");

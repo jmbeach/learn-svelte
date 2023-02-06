@@ -9,6 +9,25 @@
   let page = "overview";
   let id;
 
+  (async () => {
+    try {
+      const res = await fetch(
+        "https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups.json"
+      );
+      if (!res.ok) {
+        throw new Error("Failed to get meetups");
+      }
+      const meetups = await res.json();
+      const withIds = Object.entries(meetups).map(([key, val]) => ({
+        id: key,
+        ...val,
+      }));
+      meetupsStore.set(withIds);
+    } catch (err) {
+      console.log(err);
+    }
+  })();
+
   function closeModal() {
     editMode = undefined;
   }
