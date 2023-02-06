@@ -1,11 +1,54 @@
 <script>
-	export let name;
+	let hobbies = [];
+	let hobbyInput;
+	let isLoading = false;
+
+	(async function () {
+		isLoading = true;
+		try {
+			const res = await (
+				await fetch(
+					"https://svelte-course-b7877-default-rtdb.firebaseio.com/hobbies.json"
+				)
+			).json();
+			hobbies = Object.values(res);
+		} finally {
+			isLoading = false;
+		}
+	})();
+
+	async function addHobby() {
+		hobbies = [...hobbies, hobbyInput.value];
+		isLoading = true;
+		let res;
+		try {
+			res = await fetch(
+				"https://svelte-course-b7877-default-rtdb.firebaseio.com/hobbies.json",
+				{
+					method: "POST",
+					body: JSON.stringify(hobbyInput.value),
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+		} finally {
+			isLoading = false;
+		}
+
+		if (!res.ok) throw new Error("oh noes");
+	}
 </script>
 
-<style>
-	h1 {
-		color: purple;
-	}
-</style>
-
-<h1>Hello {name}!</h1>
+<label for="hobby">hobby</label>
+<input type="text" name="hobby" id="hobby" bind:this={hobbyInput} />
+<button on:click={addHobby}>Add Hobby</button>
+{#if isLoading}
+	<p>Loading...</p>
+{:else}
+	<ul>
+		{#each hobbies as hobby}
+			<li>{hobby}</li>
+		{/each}
+	</ul>
+{/if}
