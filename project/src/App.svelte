@@ -4,6 +4,7 @@
   import MeetupDetails from "./Meetups/MeetupDetails.svelte";
   import EditMeetup from "./Meetups/EditMeetup.svelte";
   import meetupsStore from "./Meetups/meetups-store";
+  import LoadingSpinner from "./UI/LoadingSpinner.svelte";
 
   let editMode = undefined;
   let page = "overview";
@@ -72,7 +73,7 @@
       />
     {/if}
     {#if isLoading}
-      <p>Loading...</p>
+      <LoadingSpinner />
     {:else}
       <MeetupGrid
         {editMode}
