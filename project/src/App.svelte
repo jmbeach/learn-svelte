@@ -8,6 +8,7 @@
   let editMode = undefined;
   let page = "overview";
   let id;
+  let isLoading = true;
 
   (async () => {
     try {
@@ -22,9 +23,13 @@
         id: key,
         ...val,
       }));
-      meetupsStore.set(withIds);
+      setTimeout(() => {
+        isLoading = false;
+        meetupsStore.set(withIds);
+      }, 1000);
     } catch (err) {
       console.log(err);
+    } finally {
     }
   })();
 
@@ -66,13 +71,17 @@
         on:delete={closeModal}
       />
     {/if}
-    <MeetupGrid
-      {editMode}
-      meetups={$meetupsStore}
-      on:showdetails={showDetails}
-      on:edit={onEdit}
-      on:add={() => (editMode = "add")}
-    />
+    {#if isLoading}
+      <p>Loading...</p>
+    {:else}
+      <MeetupGrid
+        {editMode}
+        meetups={$meetupsStore}
+        on:showdetails={showDetails}
+        on:edit={onEdit}
+        on:add={() => (editMode = "add")}
+      />
+    {/if}
   {:else if page === "details"}
     <MeetupDetails {id} on:close={closeDetails} />
   {/if}
