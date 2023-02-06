@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from "svelte";
+	import hobbyStore from "./hobby-store";
 	let hobbies = [];
 	let hobbyInput;
 	let isLoading = false;
@@ -12,7 +13,7 @@
 					"https://svelte-course-b7877-default-rtdb.firebaseio.com/hobbies.json"
 				)
 			).json();
-			hobbies = Object.values(res);
+			hobbyStore.setHobbies(Object.values(res));
 		} finally {
 			isLoading = false;
 		}
@@ -20,7 +21,7 @@
 	onMount(loadHobbies);
 
 	async function addHobby() {
-		hobbies = [...hobbies, hobbyInput.value];
+		hobbyStore.addHobby(hobbyInput.value);
 		isLoading = true;
 		let res;
 		try {
@@ -49,7 +50,7 @@
 	<p>Loading...</p>
 {:else}
 	<ul>
-		{#each hobbies as hobby}
+		{#each $hobbyStore as hobby}
 			<li>{hobby}</li>
 		{/each}
 	</ul>
