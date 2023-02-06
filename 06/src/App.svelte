@@ -4,7 +4,7 @@
 	let hobbyInput;
 	let isLoading = false;
 
-	onMount(async () => {
+	const loadHobbies = async () => {
 		isLoading = true;
 		try {
 			const res = await (
@@ -13,10 +13,11 @@
 				)
 			).json();
 			hobbies = Object.values(res);
+			return hobbies;
 		} finally {
 			isLoading = false;
 		}
-	});
+	};
 
 	async function addHobby() {
 		hobbies = [...hobbies, hobbyInput.value];
@@ -44,12 +45,12 @@
 <label for="hobby">hobby</label>
 <input type="text" name="hobby" id="hobby" bind:this={hobbyInput} />
 <button on:click={addHobby}>Add Hobby</button>
-{#if isLoading}
+{#await loadHobbies()}
 	<p>Loading...</p>
-{:else}
+{:then hobbyData}
 	<ul>
-		{#each hobbies as hobby}
+		{#each hobbyData as hobby}
 			<li>{hobby}</li>
 		{/each}
 	</ul>
-{/if}
+{/await}
