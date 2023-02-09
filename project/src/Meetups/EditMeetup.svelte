@@ -49,6 +49,15 @@
       isFavorite: false,
     };
     if (id) {
+      const res = await fetch(
+        `https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups/${id}.json`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(meetup),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (!res.ok) throw new Error("Could not update meetup");
       meetupsStore.update(id, meetup);
     } else {
       try {

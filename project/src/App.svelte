@@ -14,16 +14,18 @@
   (async () => {
     try {
       const res = await fetch(
-        "https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups.json"
+        "https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups/.json"
       );
       if (!res.ok) {
         throw new Error("Failed to get meetups");
       }
       const meetups = await res.json();
-      const withIds = Object.entries(meetups).map(([key, val]) => ({
-        id: key,
-        ...val,
-      }));
+      const withIds = Object.entries(meetups)
+        .filter(([key, val]) => typeof val === "object")
+        .map(([key, val]) => ({
+          id: key,
+          ...val,
+        }));
       setTimeout(() => {
         isLoading = false;
         meetupsStore.set(withIds);
