@@ -86,7 +86,16 @@
     dispatch("cancel");
   }
 
-  function deleteMeetup() {
+  async function deleteMeetup() {
+    const res = await fetch(
+      `https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups/${id}.json`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Could not delete meetup");
+    }
     meetupsStore.delete(id);
     dispatch("delete");
   }

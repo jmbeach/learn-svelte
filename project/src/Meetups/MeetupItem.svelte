@@ -13,6 +13,20 @@
   export let id;
   export let isFavorite;
   const dispatch = createEventDispatcher();
+  async function toggleFavorite() {
+    const res = await fetch(
+      `https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups/${id}.json`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ isFavorite: !isFavorite }),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Could not toggle favorite");
+    }
+    meetupsStore.toggleFavorite(id);
+  }
 </script>
 
 <article>
@@ -40,8 +54,7 @@
       mode="outline"
       type="button"
       color={isFavorite ? "" : "success"}
-      on:click={() => meetupsStore.toggleFavorite(id)}
-      >{isFavorite ? "Unfavorite" : "Favorite"}</Button
+      on:click={toggleFavorite}>{isFavorite ? "Unfavorite" : "Favorite"}</Button
     >
     <Button type="button" on:click={() => dispatch("showdetails", id)}
       >Show Details</Button
