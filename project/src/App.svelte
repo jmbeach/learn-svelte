@@ -5,11 +5,13 @@
   import EditMeetup from "./Meetups/EditMeetup.svelte";
   import meetupsStore from "./Meetups/meetups-store";
   import LoadingSpinner from "./UI/LoadingSpinner.svelte";
+  import Error from "./UI/Error.svelte";
 
   let editMode = undefined;
   let page = "overview";
   let id;
   let isLoading = true;
+  let error;
 
   (async () => {
     try {
@@ -26,13 +28,11 @@
           id: key,
           ...val,
         }));
-      setTimeout(() => {
-        isLoading = false;
-        meetupsStore.set(withIds);
-      }, 1000);
+      meetupsStore.set(withIds.reverse());
     } catch (err) {
-      console.log(err);
+      error = "Failed to get meetups";
     } finally {
+      isLoading = false;
     }
   })();
 
@@ -54,6 +54,10 @@
     id = detail;
   }
 </script>
+
+{#if error}
+  <Error message={error} on:close={() => (error = undefined)} />
+{/if}
 
 <Header />
 

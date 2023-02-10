@@ -12,8 +12,13 @@
   export let contactEmail;
   export let id;
   export let isFavorite;
+  let isLoading = false;
   const dispatch = createEventDispatcher();
+  const imgParts = imgUrl?.split(".");
+  const imgBase = imgParts.slice(0, imgParts.length - 1).join(".");
+  const imgExtension = imgParts.at(-1);
   async function toggleFavorite() {
+    isLoading = true;
     const res = await fetch(
       `https://svelte-course-b7877-default-rtdb.firebaseio.com/meetups/${id}.json`,
       {
@@ -22,6 +27,7 @@
         headers: { "Content-Type": "application/json" },
       }
     );
+    isLoading = false;
     if (!res.ok) {
       throw new Error("Could not toggle favorite");
     }
@@ -43,19 +49,25 @@
     <p>{address}</p>
   </header>
   <div class="image">
-    <img src={imgUrl} alt={title} />
+    <img src={`${imgBase}_x500.${imgExtension}`} alt={title} />
   </div>
   <div class="content">
     <p>{description}</p>
   </div>
   <footer>
     <Button mode="outline" on:click={() => dispatch("edit", id)}>Edit</Button>
-    <Button
-      mode="outline"
-      type="button"
-      color={isFavorite ? "" : "success"}
-      on:click={toggleFavorite}>{isFavorite ? "Unfavorite" : "Favorite"}</Button
-    >
+    {#if isLoading}
+      <span class="favoriting">Favoriting...</span>
+    {:else}
+      <Button
+        mode="outline"
+        type="button"
+        color={isFavorite ? "" : "success"}
+        on:click={toggleFavorite}
+        >{isFavorite ? "Unfavorite" : "Favorite"}</Button
+      >
+    {/if}
+
     <Button type="button" on:click={() => dispatch("showdetails", id)}
       >Show Details</Button
     >
@@ -118,5 +130,9 @@
 
   .content {
     height: 4rem;
+  }
+
+  .favoriting {
+    display: inline-block;
   }
 </style>
