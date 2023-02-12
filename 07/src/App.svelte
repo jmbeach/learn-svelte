@@ -20,15 +20,27 @@
   function toggle() {
     showProducts = !showProducts;
   }
+  let y;
+  $: console.log(y);
 </script>
 
-<button on:click={toggle}>Toggle Display</button>
-<svelte:component
-  this={showProducts ? Product : CartItem}
-  title={showProducts ? "test product" : "test cart item"}
-  id="p1"
-/>
+<svelte:window bind:scrollY={y} />
 
-{#each familyStructure as familyMember}
-  <FamilyNode member={familyMember} />
-{/each}
+<div>
+  <button on:click={toggle}>Toggle Display</button>
+  <svelte:component
+    this={showProducts ? Product : CartItem}
+    title={showProducts ? "test product" : "test cart item"}
+    id="p1"
+  />
+
+  {#each familyStructure as familyMember}
+    <FamilyNode member={familyMember} />
+  {/each}
+</div>
+
+<style>
+  div {
+    height: 3000px;
+  }
+</style>
