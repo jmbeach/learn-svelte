@@ -22,9 +22,17 @@
   }
   let y;
   $: console.log(y);
+  let currentTitle = "My app";
+  function switchTitle() {
+    currentTitle = "A new title";
+  }
 </script>
 
 <svelte:window bind:scrollY={y} />
+<!-- <svelte:body on:mouseenter={} /> -->
+<svelte:head><title>{currentTitle}</title></svelte:head>
+
+<button on:click={switchTitle}>Switch Title</button>
 
 <div>
   <button on:click={toggle}>Toggle Display</button>
